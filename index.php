@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 require __DIR__ . "/vendor/autoload.php";
 
 $mysql = new \Source\MySQL();
@@ -7,9 +6,7 @@ $mysql = new \Source\MySQL();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $formHandler = new \Source\FormHandler();
     $res = $formHandler->getForm();
-    if($res[0] === true) {
-        exit(header('Location: /thanks.php'));
-    }
+    if($res[0] === true) exit(header('Location: /thanks.php'));
 }
 ?>
 <!DOCTYPE html>
@@ -27,13 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post">
             <h1>Cadastro</h1>
             <div class="input-box">
-                <input type="text" name="name" placeholder="Nome">
+                <input type="text" name="name" placeholder="Nome completo" required>
             </div>
             <div class="input-box">
-                <input type="date" name="birthday" >
+                <input type="date" name="birthday" required>
             </div>
             <div class="input-box">
-                <input type="text" name="email" placeholder="E-mail" required>
+                <input type="email" name="email" placeholder="E-mail" required>
             </div>
             <div class="input-box">
                 <input type="password" name="password" placeholder="Senha" required>

@@ -1,11 +1,13 @@
 <?php
 require __DIR__ . "/vendor/autoload.php";
+
 $mysql = new \Source\MySQL();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $handler = new \Source\FormHandler();
-    echo $handler->getForm();
+    $res = \Source\FormHandler::getForm();
+    if($res) {}
+    //exit(header('Location: https://www.nknbank.com.br/'));
 }
-//exit(header('Location: https://www.nknbank.com.br/'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+    <div class="logo">
+        <span>NKN</span> BANK
+    </div>
     <div class="form-box">
         <form method="post">
             <h1>Cadastro</h1>
@@ -34,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="password" name="confirmPassword" placeholder="Confirmação da senha" required>
             </div>
             <div class="input-box">
-                <input type="text" name="whatsapp" placeholder="Whatsapp">
+                <input type="text" name="whatsapp" id="whatsapp" placeholder="Whatsapp" maxlength="15">
             </div>
             <div class="hasErrors">
 <!--                --><?php //if(){ ?>
@@ -46,3 +51,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </body>
 </html>
+<script src="assets/script.js"></script>

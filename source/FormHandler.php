@@ -8,7 +8,7 @@ use PDOException;
 
 class FormHandler extends MySQL
 {
-    public function getForm()
+    public static function getForm()
     {
         $formData = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
@@ -42,7 +42,7 @@ class FormHandler extends MySQL
 //                "Bem-Vindo ao NKN Bank!",
 //                $mailMesssage
 //            );
-            return "Tudo certo";
+            return "Ok";
         } catch (PDOException $e) {
             return $e->getMessage();
         }

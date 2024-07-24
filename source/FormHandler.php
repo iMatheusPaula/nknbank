@@ -8,23 +8,22 @@ use PDOException;
 
 class FormHandler extends MySQL
 {
-    public static function getForm()
+    public function getForm()
     {
         $formData = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-        if($formData['name'] == '') return "Preencha o nome!";
-        if($formData['birthday'] == '') return "Preencha sua data de nascimento";
-        if($formData['email'] == '' || !filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) return "e-mail invalido";
-        if($formData['password'] == '') return "Preencha a senha!";
-        if($formData['confirmPassword'] != $formData['password']) return "As senhas não conferem";
+        if($formData['name'] == '') return [false, "Preencha o nome!"];
+        if($formData['birthday'] == '') return [false, "Preencha sua data de nascimento"];
+        if($formData['email'] == '' || !filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) return [false, "e-mail invalido"];
+        if($formData['password'] == '') return [false, "Preencha a senha!"];
+        if($formData['confirmPassword'] != $formData['password']) return [false, "As senhas não conferem"];
         if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,}$/', $formData['password'])){
-            return 'Senha não atende os requisitos';
+            return [false, 'Senha não atende os requisitos'];
         }
-        if($this->checkAge($formData['birthday'])) return "Você precisa ser maior de 18 anos";
-        if($this->checkEmail($formData['email'])) return "E-mail já cadastrado";
+        if($this->checkAge($formData['birthday'])) return [false, "Você precisa ser maior de 18 anos"];
+        if($this->checkEmail($formData['email'])) return [false, "E-mail já cadastrado"];
         $setTimeZone = new DateTimeZone('America/Sao_Paulo');
         $dataLog = new DateTime();
-
         try{
 //            $query = "INSERT INTO lead (nome, datanascimento, email, senha, whatsapp, datalog) VALUES (?,?,?,?,?,?)";
 //            $stmt= $this->connection->prepare($query);
@@ -42,12 +41,12 @@ class FormHandler extends MySQL
 //                "Bem-Vindo ao NKN Bank!",
 //                $mailMesssage
 //            );
-            return "Ok";
+            return [true, "Obrigado"];
         } catch (PDOException $e) {
             return $e->getMessage();
         }
     }
-    public function checkAge(string $birthday): bool
+    private function checkAge(string $birthday): bool
     {
         $dateNow = new DateTime();
         $birthday = new DateTime($birthday);
@@ -55,7 +54,7 @@ class FormHandler extends MySQL
         if($dateNow->diff($birthday)->y >= 18) return false;
         return true;
     }
-    public function checkEmail(string $email): bool
+    private function checkEmail(string $email): bool
     {
         $query = "SELECT email FROM lead WHERE email = ?";
         $stmt= $this->connection->prepare($query);

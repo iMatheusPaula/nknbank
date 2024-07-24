@@ -15,7 +15,7 @@ body{
 }
 .logo{
     padding-top: 5%;
-    padding-bottom: 7%;
+    padding-bottom: 6%;
     font-size: 50px;
     color: #999999;
 }
@@ -26,15 +26,27 @@ body{
 .form-box{
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 35%;
     padding: 40px 50px;
     background: #ffffff;
     border-radius: 10px;
+}
+@media only screen and (max-width: 1000px) {
+    .form-box{
+        width: 400px;
+    }
 }
 .form-box h1{
     font-size: 36px;
     font-weight: 400;
     text-align: center;
+}
+.hasErrors{
+    padding-top: 35px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+    color: #e30000;
 }
 .input-box{
     width: 100%;

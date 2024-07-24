@@ -1,19 +1,22 @@
 <?php
+error_reporting(0);
 require __DIR__ . "/vendor/autoload.php";
 
 $mysql = new \Source\MySQL();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $res = \Source\FormHandler::getForm();
-    if($res) {}
-    //exit(header('Location: https://www.nknbank.com.br/'));
+    $formHandler = new \Source\FormHandler();
+    $res = $formHandler->getForm();
+    if($res[0] === true) {
+        exit(header('Location: /thanks.php'));
+    }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cadstro NKN Bank</title>
+    <title>Cadastro NKN Bank</title>
     <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
@@ -24,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post">
             <h1>Cadastro</h1>
             <div class="input-box">
-                <input type="text" placeholder="Nome" required>
+                <input type="text" name="name" placeholder="Nome">
             </div>
             <div class="input-box">
                 <input type="date" name="birthday" >
@@ -41,12 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="input-box">
                 <input type="text" name="whatsapp" id="whatsapp" placeholder="Whatsapp" maxlength="15">
             </div>
-            <div class="hasErrors">
-<!--                --><?php //if(){ ?>
-<!--                <span>print_r </span>-->
-<!--                --><?php //} ?>
-            </div>
             <button type="submit" class="btnSubmit">Cadastrar</button>
+            <?php if($res[0] === false) { ?>
+                <div class="hasErrors">Erro: <?= $res[1] ?></div>
+            <?php } ?>
         </form>
     </div>
 </body>

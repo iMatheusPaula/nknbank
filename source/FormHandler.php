@@ -17,7 +17,7 @@ class FormHandler extends MySQL
         if($formData['email'] == '' || !filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) return [false, "E-mail invalido!"];
         if($formData['password'] == '') return [false, "Preencha a senha!"];
         if($formData['confirmPassword'] != $formData['password']) return [false, "As senhas não conferem!"];
-        if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,}$/', $formData['password'])){
+        if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[a-zA-Z0-9._%+!@#&*-]{6,}$/', $formData['password'])){
             return [false, 'A senha precisa 6 caracteres com pelo menos um número e letra!'];
         }
         if($this->checkAge($formData['birthday'])) return [false, "Você precisa ser maior de 18 anos!"];
